@@ -117,7 +117,7 @@ public class PluginHelper {
     public static void addExecutor(Plugin plugin, String command, String permission, IExec exec) {
         Exec e = new Exec(command, exec);
         e.setPermission(permission);
-        e.setPermissionMessage(ChatColor.RED + "您没有权限执行此类指令，请联系管理！");
+        e.setPermissionMessage(ChatColor.RED + "Permission denied!");
         addExecutor(plugin, e);
     }
 

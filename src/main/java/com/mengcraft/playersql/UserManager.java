@@ -115,7 +115,6 @@ public enum UserManager {
     public PlayerData getUserData(Player p, boolean closeInventory) {
         PlayerData user = new PlayerData();
         user.setUuid(p.getUniqueId());
-        user.setName(p.getName());
         if (Config.SYN_HEALTH) {
             user.setHealth(p.getHealth());
         }

@@ -19,23 +19,7 @@ public class DataSerializer {
         if (Config.FORCE_PROTOCOLLIB) {
             PACKET_DATA_SERIALIZER_FACTORY = null;
         } else {
-            switch (Bukkit.getServer().getClass().getPackage().getName()) {
-                case "org.bukkit.craftbukkit.v1_8_R3":
-                    PACKET_DATA_SERIALIZER_FACTORY = buf -> new com.mengcraft.playersql.internal.v1_8_3.PacketDataSerializer(buf);
-                    break;
-                case "org.bukkit.craftbukkit.v1_12_R1":
-                    PACKET_DATA_SERIALIZER_FACTORY = buf -> new com.mengcraft.playersql.internal.v1_12.PacketDataSerializer(buf);
-                    break;
-                case "org.bukkit.craftbukkit.v1_13_R1":
-                    PACKET_DATA_SERIALIZER_FACTORY = buf -> new com.mengcraft.playersql.internal.v1_13.PacketDataSerializer(buf);
-                    break;
-                case "org.bukkit.craftbukkit.v1_13_R2":
-                    PACKET_DATA_SERIALIZER_FACTORY = buf -> new com.mengcraft.playersql.internal.v1_13_2.PacketDataSerializer(buf);
-                    break;
-                default:
-                    PACKET_DATA_SERIALIZER_FACTORY = null;
-                    break;
-            }
+            PACKET_DATA_SERIALIZER_FACTORY = buf -> new com.mengcraft.playersql.internal.v1_13_2.PacketDataSerializer(buf);
         }
         System.out.println(String.format("PACKET_DATA_SERIALIZER_FACTORY = %s", PACKET_DATA_SERIALIZER_FACTORY));
     }
@@ -45,10 +29,12 @@ public class DataSerializer {
         if (PACKET_DATA_SERIALIZER_FACTORY == null) {
             return StreamSerializer.getDefault().serializeItemStack(input);
         }
-        String data;
+        String data = null;
         try (IPacketDataSerializer serializer = PACKET_DATA_SERIALIZER_FACTORY.create(PooledByteBufAllocator.DEFAULT.buffer())) {
             serializer.write(input);
             data = Base64.getEncoder().encodeToString(serializer.readAll());
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
         return data;
     }

@@ -1,3 +1,9 @@
+repositories {
+    maven {
+        url "http://terraconia.de:8081/artifactory"
+    }
+}
+
 dependencies {
-    compileOnly 'org.spigotmc:spigot:1.13.1-R0.1-SNAPSHOT'
+    compileOnly group: 'tc.plugins', name: 'bukkit', version: 'SERVER-SNAPSHOT'
 }

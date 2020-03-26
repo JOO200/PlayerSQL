@@ -18,6 +18,15 @@ allprojects {
         maven {
             url 'http://ci.mengcraft.com:8081/plugin/repository/everything/'
         }
+        maven {
+            url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        }
+        maven {
+            url "https://repo.dmulloy2.net/nexus/repository/public/"
+        }
+        maven {
+            url "https://repo.terraconia.de/artifactory/terraconia-repos"
+        }
         mavenCentral()
         jcenter()
     }
@@ -30,7 +39,7 @@ allprojects {
 
 project(":internal") {
     dependencies {
-        compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+        compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     }
 
     subprojects {
@@ -45,10 +54,11 @@ dependencies {
     compile subprojects
     compileOnly 'org.lz4:lz4-java:1.5.0'
     compileOnly 'net.md-5:bungeecord-api:1.12-SNAPSHOT'
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     compileOnly 'com.mengcraft:simpleorm:1.2-SNAPSHOT'
     compileOnly 'org.avaje:ebean:2.8.1'
-    compileOnly 'com.comphenix.protocol:ProtocolLib:4.4.0-SNAPSHOT'
+    compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
+    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.5.0";
 }
 
 jar.finalizedBy(shadowJar)
@@ -57,15 +67,6 @@ publishing {
     publications {
         maven(MavenPublication) {
             project.shadow.component(it)
-        }
-    }
-    repositories {
-        maven {
-            url = "${DEPLOY_REPOSITORY}"
-            credentials {
-                username = "${DEPLOY_USER}"
-                password = "${DEPLOY_PASSWORD}"
-            }
         }
     }
 }
